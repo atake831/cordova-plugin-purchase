@@ -79,6 +79,7 @@ var keywords = [      ///
     store.APPROVED,   ///  - `approved`
     store.OWNED,      ///  - `owned`
     store.FINISHED,   ///  - `finished`
+    store.CONSUMED,   ///  - `consumed`
     store.DOWNLOADING,///  - `downloading`
     store.DOWNLOADED, ///  - `downloaded`
     'refreshed'       ///  - `refreshed`

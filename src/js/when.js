@@ -75,6 +75,7 @@ store.when = function(query, once, callback) {
         addPromise('requested');
         addPromise('initiated');
         addPromise('finished');
+        addPromise('consumed');
 
         ///  - `verified(product)`
         ///    - Called when receipt validation successful
