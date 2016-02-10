@@ -187,11 +187,19 @@ store.verbosity = 0;
     };
     store.error = function(cb, altCb) {
         var ret = cb;
-        if (cb instanceof store.Error) store.error.callbacks.trigger(cb); else if (cb.code && cb.message) store.error.callbacks.trigger(new store.Error(cb)); else if (typeof cb === "function") store.error.callbacks.push(cb); else if (typeof altCb === "function") {
+        if (cb instanceof store.Error) {
+            store.error.callbacks.trigger(cb);
+        } else if (typeof cb === "function") {
+            store.error.callbacks.push(cb);
+        } else if (typeof altCb === "function") {
             ret = function(err) {
                 if (err.code === cb) altCb();
             };
             store.error(ret);
+        } else if (cb.code && cb.message) {
+            store.error.callbacks.trigger(new store.Error(cb));
+        } else if (cb.code) {
+            store.error.callbacks.trigger(new store.Error(cb));
         }
         return ret;
     };
@@ -823,11 +831,11 @@ store.verbosity = 0;
             cordova.exec(success, errorCb(fail), "InAppBillingPlugin", "getProductDetails", [ skus ]);
         }
     };
-    InAppBilling.prototype.setTestMode = function(testMode) {
+    InAppBilling.prototype.setTestMode = function(success, fail) {
         if (this.options.showLog) {
             log("setTestMode called!");
         }
-        return cordova.exec(null, null, "InAppBillingPlugin", "setTestMode", [ testMode ]);
+        return cordova.exec(success, errorCb(fail), "InAppBillingPlugin", "setTestMode", [ "" ]);
     };
     function errorCb(fail) {
         return function(error) {
