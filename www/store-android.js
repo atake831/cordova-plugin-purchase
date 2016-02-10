@@ -986,16 +986,20 @@ store.verbosity = 0;
     store.when("product", "finished", function(product) {
         store.log.debug("plugin -> consumable finished");
         if (product.type === store.CONSUMABLE) {
-            product.transaction = null;
-            store.inappbilling.consumePurchase(function() {
-                store.log.debug("plugin -> consumable consumed");
+            if (product.transaction !== null) {
+                product.transaction = null;
+                store.inappbilling.consumePurchase(function() {
+                    store.log.debug("plugin -> consumable consumed");
+                    product.set("state", store.VALID);
+                }, function(err, code) {
+                    store.error({
+                        code: code || store.ERR_UNKNOWN,
+                        message: err
+                    });
+                }, product.id);
+            } else {
                 product.set("state", store.VALID);
-            }, function(err, code) {
-                store.error({
-                    code: code || store.ERR_UNKNOWN,
-                    message: err
-                });
-            }, product.id);
+            }
         } else {
             product.set("state", store.OWNED);
         }

@@ -201,7 +201,7 @@ store.when("requested", function(product) {
 store.when("product", "finished", function(product) {
     store.log.debug("plugin -> consumable finished");
     if (product.type === store.CONSUMABLE) {
-        if (product.transaction != null){
+        if (product.transaction !== null){
             product.transaction = null;
             store.inappbilling.consumePurchase(
                 function() { // success
