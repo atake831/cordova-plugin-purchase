@@ -206,6 +206,7 @@ store.when("product", "finished", function(product) {
             store.inappbilling.consumePurchase(
                 function() { // success
                     store.log.debug("plugin -> consumable consumed");
+                    product.trigger("consumed");
                     product.set('state', store.VALID);
                 },
                 function(err, code) { // error

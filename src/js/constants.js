@@ -52,6 +52,7 @@ var ERROR_CODES_BASE = 6777000;
 /*///*/     store.INITIATED  = 'initiated';
 /*///*/     store.APPROVED   = 'approved';
 /*///*/     store.FINISHED   = 'finished';
+/*///*/     store.CONSUMED   = 'consumed';
 /*///*/     store.OWNED      = 'owned';
 /*///*/     store.DOWNLOADING = 'downloading';
 /*///*/     store.DOWNLOADED = 'downloaded';

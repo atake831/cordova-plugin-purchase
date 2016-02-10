@@ -36,6 +36,7 @@ store.verbosity = 0;
     store.INITIATED = "initiated";
     store.APPROVED = "approved";
     store.FINISHED = "finished";
+    store.CONSUMED = "consumed";
     store.OWNED = "owned";
     store.DOWNLOADING = "downloading";
     store.DOWNLOADED = "downloaded";
@@ -225,7 +226,7 @@ store.verbosity = 0;
             store.products.push(p);
         }
     }
-    var keywords = [ "product", "order", store.REGISTERED, store.VALID, store.INVALID, store.REQUESTED, store.INITIATED, store.APPROVED, store.OWNED, store.FINISHED, store.DOWNLOADING, store.DOWNLOADED, "refreshed" ];
+    var keywords = [ "product", "order", store.REGISTERED, store.VALID, store.INVALID, store.REQUESTED, store.INITIATED, store.APPROVED, store.OWNED, store.FINISHED, store.CONSUMED, store.DOWNLOADING, store.DOWNLOADED, "refreshed" ];
     function hasKeyword(string) {
         if (!string) return false;
         var tokens = string.split(" ");
@@ -275,6 +276,7 @@ store.verbosity = 0;
             addPromise("requested");
             addPromise("initiated");
             addPromise("finished");
+            addPromise("consumed");
             addPromise("verified");
             addPromise("unverified");
             addPromise("expired");
@@ -990,6 +992,7 @@ store.verbosity = 0;
                 product.transaction = null;
                 store.inappbilling.consumePurchase(function() {
                     store.log.debug("plugin -> consumable consumed");
+                    product.trigger("consumed");
                     product.set("state", store.VALID);
                 }, function(err, code) {
                     store.error({
